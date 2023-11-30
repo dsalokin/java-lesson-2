@@ -3,68 +3,78 @@ package aquarium;
 //Создать класс Human с полями name и age, и методом getFood(aquarium.Aquarium).
 public class Human {
 
-    private String name;
     private int age;
+    private String name;
     private int money = 40000;
+    Aquarium[] userAqs = new Aquarium[10];
 
-    private Aquarium[] userAquariums = new Aquarium[10];
-
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
-
-    String getName() {
+    public String getName() {
         return this.name;
     }
-
-    void setAge(int age) {
+    public void setAge(int age) {
         this.age = age;
     }
-
-    int getAge() {
+    public int getAge() {
         return this.age;
     }
-
-    void setMoney(int money) {
+    public void setMoney(int money) {
         this.money = money;
     }
-
-    int getMoney() {
+    public int getMoney() {
         return this.money;
     }
 
-
-    public void getFood(Aquarium aquarium) {
-
+    public boolean checkSpace() {
+        boolean a = false;
+        for(int i = 0; i < userAqs.length; i++) {
+            if(userAqs[i] == null) {
+                a = true;
+            }else {
+                a = false;
+            }
+        }
+        return a;
+    }
+    public boolean checkMoney(int price) {
+        return price < money;
     }
 
-    public boolean checkMoneyExists() {
-        return money > 0;
+    public void getInfo() {
+        System.out.printf("Вы %s вам %d и у вас %d денег", name, age, money);
     }
 
-    public boolean checkCanBuyAquarium(Aquarium aquarium) {
-        return money > aquarium.getPrice();
-    }
-
-    public void buyAquarium(Aquarium aquarium) {
-        if (checkCanBuyAquarium(aquarium)) {
-            for (int i = 0; i < this.userAquariums.length; i++) {
-                if (this.userAquariums[i] == null) {
-                    this.userAquariums[i] = aquarium;
-                    this.money = money - aquarium.getPrice();
-                    System.out.printf("Поздравляем! вы купили новый аквариум за %d, у вас осталось %d денег\n",
-                            aquarium.getPrice(), money - aquarium.getPrice());
-                    break;
-
-                } else if (i == this.userAquariums.length - 1) {
-                    System.out.println("Список аквариумов полный, необходимо продать или убрать один из списка");
-                    System.out.println("Поздравляем! Вы ничего не купили.");
-                }
+    public void getAqsList() {
+        for (int i = 0; i < userAqs.length; i++) {
+            if(userAqs[i] != null) {
+                System.out.printf("№" + i + " ");
+                userAqs[i].getInfo();
+            }
+            else {
+                System.out.println("Пустое");
             }
 
-        } else {
-            System.out.printf("У вас %d денег, вам не хватает %d для покупки\n", money, aquarium.getPrice() - money);
         }
     }
-}
+    public void buyAq(Aquarium aquarium) {
+        for (int i = 0; i < userAqs.length; i++) {
+            if(userAqs[i] == null && checkMoney(aquarium.getPrice()) && checkSpace()) {
+                userAqs[i] = aquarium;
+                setMoney(money - aquarium.getPrice());
+                System.out.printf("Вы купили оквариум за %d и у вас осталось %d денег\n", aquarium.getPrice(), getMoney());
+                return;
+            }else {
+                System.out.println("Вам некуда купить");
+            }
+        }
+    }
 
+    public Human() {
+        this.name = getName();
+        this.age = getAge();
+        this.money = getMoney();
+
+    }
+}
