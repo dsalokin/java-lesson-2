@@ -5,20 +5,55 @@ package aquarium;
 //2. Добавить ему поля name(String), color(String), type(String).
 //3. Создать экземпляр (объект) класса Fish.
 
+import java.util.Random;
+
 public class Fish {
 
-    String name;
-    String color;
+    Random r = new Random();
+    int index = 0;
 
-    String type;
+    private String name;
+    private String color;
+    private String type;
+    private int price;
 
-    private boolean hungry;
+    private String[] colorArr  = new String[] {"Green", "Red", "Blue", "Black"};
+    private String[] typeArr = new String[] {"Tuna", "Anchovy", "Salmon", "Piranha"};
 
-    public boolean getHungry() {
-        return this.hungry;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public String getColor(int i) {
+        return this.color;
+    }
+    public String getType(int i) {
+        return this.type;
+    }
+    public int getPrice() {
+        return this.price;
+    }
+    public void getInfo() {
+        System.out.printf("Имя: %s/ Цвет: %s/ Тип: %s/ Цена: %d\n",name, color, type, price);
     }
 
-    public void setHungry(boolean hungry) {
-        this.hungry = hungry;
+    public Fish(String name, String color, String type, int price) {
+        this.price = price;
+        this.name = name;
+        this.type = type;
+        this.color = color;
     }
+
+    public Fish() {
+        index = index + 1;
+        this.price = r.nextInt(100, 1500);
+        this.name = "Рыбка номер " + index;
+        this.color = colorArr[r.nextInt(0, 3)].toString();
+        this.type = typeArr[r.nextInt(0, 3)].toString();
+    }
+
+
 }
